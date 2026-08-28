@@ -40,19 +40,28 @@ class Ejercicio13_2Activity : AppCompatActivity() {
         }
 
         btnRecuperar.setOnClickListener {
-            val nombre = etNombre.text.toString().trim()
+            val nombreBuscado = etNombre.text.toString().trim()
 
-            if (nombre.isEmpty()) {
+            if (nombreBuscado.isEmpty()) {
                 Toast.makeText(this, "Ingrese el nombre a buscar", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            val datosRecuperados = sharedPref.getString(nombre, null)
+            // Búsqueda insensible a mayúsculas/minúsculas
+            val todasLasEntradas = sharedPref.all
+            var encontrado = false
 
-            if (datosRecuperados != null) {
-                etDatos.setText(datosRecuperados)
-                Toast.makeText(this, "Datos recuperados", Toast.LENGTH_SHORT).show()
-            } else {
+            for ((key, value) in todasLasEntradas) {
+                if (key.equals(nombreBuscado, ignoreCase = true)) {
+                    etDatos.setText(value.toString())
+                    Toast.makeText(this, "Datos recuperados", Toast.LENGTH_SHORT).show()
+                    encontrado = true
+                    break
+                }
+            }
+
+            if (!encontrado) {
+                etDatos.setText("")
                 Toast.makeText(this, "No se encontró información para este nombre", Toast.LENGTH_SHORT).show()
             }
         }

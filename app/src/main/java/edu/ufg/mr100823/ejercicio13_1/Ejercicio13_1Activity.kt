@@ -17,7 +17,6 @@ class Ejercicio13_1Activity : AppCompatActivity() {
         val etCorreo = findViewById<EditText>(R.id.etCorreo)
         val btnGuardar = findViewById<Button>(R.id.btnGuardar)
 
-        // Recuperar el último correo guardado
         val sharedPref = getSharedPreferences("datos_persona", Context.MODE_PRIVATE)
         val correoGuardado = sharedPref.getString("correo", "")
         etCorreo.setText(correoGuardado)
@@ -25,7 +24,6 @@ class Ejercicio13_1Activity : AppCompatActivity() {
         btnGuardar.setOnClickListener {
             val correo = etCorreo.text.toString()
             
-            // Guardar el correo en SharedPreferences
             val editor = sharedPref.edit()
             editor.putString("correo", correo)
             editor.apply()
